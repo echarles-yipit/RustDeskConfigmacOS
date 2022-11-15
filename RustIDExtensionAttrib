@@ -1,0 +1,18 @@
+#!/bin/bash
+
+#####################################
+##
+## Pull user ID for Rust and add it to Jamf Inventory
+## App needs to have been run for that part of the plist to be populated
+##
+#####################################
+
+#Set Current User
+
+currentuser=`/bin/ls -l /dev/console | /usr/bin/awk '{ print $3 }'`
+
+#Users RustDeskID
+
+RustID=$(awk -F " |'" '($1 == "id") { print $(NF-1); exit }' /Users/$currentuser/Library/Preferences/com.carriez.RustDesk/RustDesk.toml)
+
+echo "<result>$RustID</result>"
